@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow public to create inquiries but not read/list them
+    match /inquiries/{inquiry} {
+      allow create: if true;
+      allow read, update, delete: if false; 
+    }
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
