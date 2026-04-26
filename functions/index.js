@@ -1,23 +1,20 @@
 const { onDocumentCreated } = require("firebase-functions/v2/firestore");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
-const { setGlobalOptions } = require("firebase-functions/v2");
 const logger = require("firebase-functions/logger");
 
 initializeApp();
 const db = getFirestore();
 
-// Pivot to us-east1 and remove custom memory to bypass regional quota issues
-setGlobalOptions({ 
-    region: "us-east1"
-});
-
 /**
  * Triggered when a new document is added to the 'inquiries' collection.
+ * Using 1GiB memory to ensure the build process has enough overhead.
  */
-exports.processinquiry = onDocumentCreated({
+exports.inquiryrelay = onDocumentCreated({
     document: "inquiries/{inquiryId}",
     database: "(default)",
+    region: "us-east1",
+    memory: "1GiB"
 }, async (event) => {
     const data = event.data.data();
     const inquiryId = event.params.inquiryId;
