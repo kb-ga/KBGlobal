@@ -73,10 +73,10 @@ export default function AboutKBGH() {
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '3rem', alignItems: 'center' }}>
+        <div className="grid-2" style={{ alignItems: 'center' }}>
           
           {/* Left Side: Proposition Text */}
-          <div className="animate-fade-in delay-100" style={{ paddingRight: '1rem' }}>
+          <div className="animate-fade-in delay-100">
             <h2 className="title" style={{ fontSize: 'clamp(2.5rem, 3.5vw, 3rem)', marginBottom: '1.2rem', color: 'var(--text-primary)', lineHeight: '1.1' }}>
               <span className="text-gradient-blue">What do we do?</span>
             </h2>
@@ -92,7 +92,7 @@ export default function AboutKBGH() {
           </div>
 
           {/* Right Side: Partnership Cards Grid */}
-          <div className="animate-fade-in delay-200" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="animate-fade-in delay-200" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: '1rem' }}>
             {steps.map((step, idx) => (
               <div 
                 key={step.id} 

@@ -38,10 +38,10 @@ export default function Contact() {
         <div className="grid-2" style={{ alignItems: 'center' }}>
           
           <div className="animate-fade-in delay-100">
-            <h2 className="title" style={{ fontSize: '3rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>
+            <h2 className="title" style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)', marginBottom: '1rem', color: 'var(--text-primary)', lineHeight: '1.1' }}>
               Initiate <span className="text-gradient-blue">Gateway</span> Activation
             </h2>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1.2rem' }}>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', lineHeight: '1.6' }}>
               Secure your sovereign infrastructure allocation. Connect with our deployment team to discuss your hyperscale or sovereign datacenter requirements.
             </p>
             

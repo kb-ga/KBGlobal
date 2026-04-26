@@ -53,18 +53,18 @@ export default function InvestorVision() {
         </div>
 
         {/* Vision Metrics Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
           {metrics.map((metric, idx) => (
             <div 
               key={idx} 
               className={`glass-card animate-fade-in delay-${(idx + 1) * 100}`} 
               style={{ 
-                padding: '1.25rem', 
+                padding: '1.5rem', 
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.75rem',
-                borderTop: idx % 2 === 0 ? '3px solid var(--accent-gold)' : '3px solid var(--accent-blue)',
+                borderTop: idx % 2 === 0 ? '4px solid var(--accent-gold)' : '4px solid var(--accent-blue)',
                 transition: 'transform 0.3s ease',
                 cursor: 'default',
                 background: 'var(--bg-primary)'
@@ -84,13 +84,13 @@ export default function InvestorVision() {
         {/* Strategy Grid */}
         <div className="animate-fade-in delay-100" style={{ margin: '0 auto' }}>
           
-          <h3 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '1.5rem', fontWeight: 700, textAlign: 'center' }}>
+          <h3 style={{ fontSize: 'clamp(1.3rem, 4vw, 1.6rem)', color: 'var(--text-primary)', marginBottom: '2rem', fontWeight: 700, textAlign: 'center', lineHeight: '1.4' }}>
             Deploying strategic capital into the Sovereign AI architecture.
           </h3>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.5rem' }}>
             {focuses.map((focus, idx) => (
-              <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'flex-start', background: 'var(--bg-primary)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-glass)' }}>
+              <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'flex-start', background: 'var(--bg-primary)', padding: '1.75rem', borderRadius: '12px', border: '1px solid var(--border-glass)' }}>
                 <div style={{ 
                   width: '48px', 
                   height: '48px', 

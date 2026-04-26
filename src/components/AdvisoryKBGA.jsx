@@ -22,32 +22,33 @@ export default function AdvisoryKBGA() {
           </div>
         </div>
 
-        <div className="grid-2" style={{ gap: '2rem' }}>
+        <div className="grid-2" style={{ gap: '1.5rem' }}>
           <div 
             className="glass-card animate-fade-in delay-100" 
             style={{ 
-              padding: '2.5rem', 
-              borderTop: '3px solid var(--accent-blue)', 
+              padding: 'clamp(1.5rem, 5vw, 2.5rem)', 
+              borderTop: '4px solid var(--accent-blue)', 
               display: 'flex', 
               flexDirection: 'column', 
               gap: '1rem',
               transition: 'transform 0.3s ease',
-              cursor: 'default'
+              cursor: 'default',
+              background: 'var(--bg-secondary)'
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-8px)'} 
             onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
           >
             <div style={{ 
-              width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', 
+              width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', 
               background: 'linear-gradient(135deg, rgba(37,99,235,0.1), rgba(37,99,235,0.02))', 
-              borderRadius: '12px', color: 'var(--accent-blue)', marginBottom: '0.5rem' 
+              borderRadius: '12px', color: 'var(--accent-blue)', marginBottom: '0.25rem' 
             }}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: '32px', height: '32px' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: '28px', height: '28px' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h4 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>Global Perspective</h4>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: '1.6' }}>
+            <h4 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', color: 'var(--text-primary)', fontWeight: 700 }}>Global Perspective</h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.6' }}>
               We design macroeconomic, geopolitical, and technological roadmaps that position our partners at the forefront of the global Sovereign AI movement.
             </p>
           </div>
@@ -55,29 +56,30 @@ export default function AdvisoryKBGA() {
           <div 
             className="glass-card animate-fade-in delay-200" 
             style={{ 
-              padding: '2.5rem', 
-              borderTop: '3px solid var(--accent-gold)', 
+              padding: 'clamp(1.5rem, 5vw, 2.5rem)', 
+              borderTop: '4px solid var(--accent-gold)', 
               display: 'flex', 
               flexDirection: 'column', 
               gap: '1rem',
               transition: 'transform 0.3s ease',
-              cursor: 'default'
+              cursor: 'default',
+              background: 'var(--bg-secondary)'
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-8px)'} 
             onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
           >
             <div style={{ 
-              width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', 
+              width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', 
               background: 'linear-gradient(135deg, rgba(180,83,9,0.1), rgba(180,83,9,0.02))', 
-              borderRadius: '12px', color: 'var(--accent-gold)', marginBottom: '0.5rem' 
+              borderRadius: '12px', color: 'var(--accent-gold)', marginBottom: '0.25rem' 
             }}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: '32px', height: '32px' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: '28px', height: '28px' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
-            <h4 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', fontWeight: 700 }}>Local Intelligence</h4>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: '1.6' }}>
+            <h4 style={{ fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', color: 'var(--text-primary)', fontWeight: 700 }}>Local Intelligence</h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.6' }}>
               Our regional experts hold deep operational, legal, and cultural knowledge, ensuring frictionless integration and compliance within specific sovereign borders.
             </p>
           </div>
