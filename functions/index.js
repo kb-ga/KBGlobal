@@ -1,25 +1,13 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const nodemailer = require("nodemailer");
 
 admin.initializeApp();
 
-// Configure the email transport. 
-// RECOMMENDATION: Run the following commands to set your credentials securely:
-// firebase functions:config:set email.user="karthik@kb-ga.com" email.pass="YOUR_APP_PASSWORD"
-const emailUser = functions.config().email?.user || "karthik@kb-ga.com";
-const emailPass = functions.config().email?.pass;
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: emailUser,
-    pass: emailPass,
-  },
-});
-
 /**
  * Triggered when a new document is added to the 'inquiries' collection.
+ * This version uses the "Trigger Email" Firebase Extension pattern.
+ * Instead of sending the email directly (which requires passwords),
+ * it creates a document in the 'mail' collection that the extension picks up.
  */
 exports.onInquiryCreated = functions.firestore
     .document("inquiries/{inquiryId}")
@@ -29,32 +17,28 @@ exports.onInquiryCreated = functions.firestore
 
       console.log(`New inquiry received: ${inquiryId}`, data);
 
-      const mailOptions = {
-        from: `"Sovereign AI Gateway" <${emailUser}>`,
-        to: "karthik@kb-ga.com",
-        subject: `New Inquiry from ${data.name} - Sovereign AI Gateway`,
-        html: `
-          <h3>New Gateway Inquiry</h3>
-          <p><strong>Name:</strong> ${data.name}</p>
-          <p><strong>Email:</strong> ${data.email}</p>
-          <p><strong>Company:</strong> ${data.company}</p>
-          <p><strong>Requirement:</strong> ${data.requirement}</p>
-          <p><strong>ID:</strong> ${inquiryId}</p>
-          <hr />
-          <p>This inquiry has been saved to your Firestore database.</p>
-        `,
-      };
-
-      if (!emailPass) {
-        console.warn("Email password not set in functions config. Skipping email send.");
-        return null;
-      }
-
+      // Create a document in the 'mail' collection.
+      // This is compatible with the "Trigger Email" Firebase Extension.
       try {
-        await transporter.sendMail(mailOptions);
-        console.log("Notification email sent successfully to Karthik@kb-ga.com");
+        await admin.firestore().collection("mail").add({
+          to: "karthik@kb-ga.com",
+          message: {
+            subject: `New Inquiry from ${data.name} - Sovereign AI Gateway`,
+            html: `
+              <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                <h2 style="color: #2563eb;">New Gateway Inquiry</h2>
+                <p><strong>Name:</strong> ${data.name}</p>
+                <p><strong>Email:</strong> ${data.email}</p>
+                <p><strong>Company:</strong> ${data.company}</p>
+                <p><strong>Requirement:</strong> ${data.requirement}</p>
+                <p style="color: #666; font-size: 12px; margin-top: 20px;">Inquiry ID: ${inquiryId}</p>
+              </div>
+            `,
+          },
+        });
+        console.log("Mail document created in 'mail' collection for extension.");
       } catch (error) {
-        console.error("Error sending notification email:", error);
+        console.error("Error creating mail document:", error);
       }
 
       return null;
