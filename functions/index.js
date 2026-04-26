@@ -16,9 +16,9 @@ setGlobalOptions({
 
 /**
  * Triggered when a new document is added to the 'inquiries' collection.
- * We explicitly set the database and namespace for nam5 compatibility.
+ * Renamed to 'processinquiry' to bypass the HTTPS/Background trigger conflict.
  */
-exports.oninquirycreated = onDocumentCreated({
+exports.processinquiry = onDocumentCreated({
     document: "inquiries/{inquiryId}",
     database: "(default)",
 }, async (event) => {
