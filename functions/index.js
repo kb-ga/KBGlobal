@@ -7,16 +7,13 @@ const logger = require("firebase-functions/logger");
 initializeApp();
 const db = getFirestore();
 
-// IMPORTANT: Set trigger region to match your database (nam5)
-// and deployment region to us-central1 (extension location)
+// Pivot to us-east1 and remove custom memory to bypass regional quota issues
 setGlobalOptions({ 
-    region: "us-central1",
-    memory: "512MiB" 
+    region: "us-east1"
 });
 
 /**
  * Triggered when a new document is added to the 'inquiries' collection.
- * Renamed to 'processinquiry' to bypass the HTTPS/Background trigger conflict.
  */
 exports.processinquiry = onDocumentCreated({
     document: "inquiries/{inquiryId}",
