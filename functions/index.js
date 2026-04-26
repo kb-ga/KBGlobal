@@ -7,7 +7,8 @@ const logger = require("firebase-functions/logger");
 initializeApp();
 const db = getFirestore();
 
-// Increase memory and set global region to match your database location (nam5 -> us-central1)
+// IMPORTANT: Set trigger region to match your database (nam5)
+// and deployment region to us-central1 (extension location)
 setGlobalOptions({ 
     region: "us-central1",
     memory: "512MiB" 
@@ -15,9 +16,12 @@ setGlobalOptions({
 
 /**
  * Triggered when a new document is added to the 'inquiries' collection.
- * Using 2nd Gen (required for firebase-functions v7).
+ * We explicitly set the database and namespace for nam5 compatibility.
  */
-exports.oninquirycreated = onDocumentCreated("inquiries/{inquiryId}", async (event) => {
+exports.oninquirycreated = onDocumentCreated({
+    document: "inquiries/{inquiryId}",
+    database: "(default)",
+}, async (event) => {
     const data = event.data.data();
     const inquiryId = event.params.inquiryId;
 
