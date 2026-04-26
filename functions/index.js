@@ -1,41 +1,47 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const { initializeApp } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
+const { setGlobalOptions } = require("firebase-functions/v2");
+const logger = require("firebase-functions/logger");
 
-admin.initializeApp();
+initializeApp();
+const db = getFirestore();
+
+// Increase memory and set global region to match your database location (nam5 -> us-central1)
+setGlobalOptions({ 
+    region: "us-central1",
+    memory: "512MiB" 
+});
 
 /**
  * Triggered when a new document is added to the 'inquiries' collection.
- * Using 1st Gen for maximum stability.
+ * Using 2nd Gen (required for firebase-functions v7).
  */
-exports.oninquirycreated = functions.firestore
-    .document("inquiries/{inquiryId}")
-    .onCreate(async (snapshot, context) => {
-        const data = snapshot.data();
-        const inquiryId = context.params.inquiryId;
+exports.oninquirycreated = onDocumentCreated("inquiries/{inquiryId}", async (event) => {
+    const data = event.data.data();
+    const inquiryId = event.params.inquiryId;
 
-        console.log(`New inquiry received: ${inquiryId}`, data);
+    logger.info(`New inquiry received: ${inquiryId}`, data);
 
-        try {
-            await admin.firestore().collection("mail").add({
-                to: "karthik@kb-ga.com",
-                message: {
-                    subject: `New Inquiry from ${data.name} - Sovereign AI Gateway`,
-                    html: `
-                        <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-                            <h2 style="color: #2563eb;">New Gateway Inquiry</h2>
-                            <p><strong>Name:</strong> ${data.name}</p>
-                            <p><strong>Email:</strong> ${data.email}</p>
-                            <p><strong>Company:</strong> ${data.company}</p>
-                            <p><strong>Requirement:</strong> ${data.requirement}</p>
-                            <p style="color: #666; font-size: 12px; margin-top: 20px;">Inquiry ID: ${inquiryId}</p>
-                        </div>
-                    `,
-                },
-            });
-            console.log("Mail document created in 'mail' collection.");
-        } catch (error) {
-            console.error("Error creating mail document:", error);
-        }
-
-        return null;
-    });
+    try {
+        await db.collection("mail").add({
+            to: "karthik@kb-ga.com",
+            message: {
+                subject: `New Inquiry from ${data.name} - Sovereign AI Gateway`,
+                html: `
+                    <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                        <h2 style="color: #2563eb;">New Gateway Inquiry</h2>
+                        <p><strong>Name:</strong> ${data.name}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                        <p><strong>Company:</strong> ${data.company}</p>
+                        <p><strong>Requirement:</strong> ${data.requirement}</p>
+                        <p style="color: #666; font-size: 12px; margin-top: 20px;">Inquiry ID: ${inquiryId}</p>
+                    </div>
+                `,
+            },
+        });
+        logger.info("Mail document created in 'mail' collection.");
+    } catch (error) {
+        logger.error("Error creating mail document:", error);
+    }
+});
