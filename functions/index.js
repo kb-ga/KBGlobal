@@ -4,13 +4,17 @@ const nodemailer = require("nodemailer");
 
 admin.initializeApp();
 
-// Configure the email transport using the default SMTP transport and a GMAIL account.
-// For production, consider using a service like SendGrid, Mailgun, or Postmark.
+// Configure the email transport. 
+// RECOMMENDATION: Run the following commands to set your credentials securely:
+// firebase functions:config:set email.user="karthik@kb-ga.com" email.pass="YOUR_APP_PASSWORD"
+const emailUser = functions.config().email?.user || "karthik@kb-ga.com";
+const emailPass = functions.config().email?.pass;
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "YOUR_NOTIFICATION_EMAIL@gmail.com", // Replace with your sender email
-    pass: "YOUR_GMAIL_APP_PASSWORD",          // Replace with your app password
+    user: emailUser,
+    pass: emailPass,
   },
 });
 
@@ -26,8 +30,8 @@ exports.onInquiryCreated = functions.firestore
       console.log(`New inquiry received: ${inquiryId}`, data);
 
       const mailOptions = {
-        from: '"Sovereign AI Gateway" <YOUR_NOTIFICATION_EMAIL@gmail.com>',
-        to: "Karthik@kb-ga.com",
+        from: `"Sovereign AI Gateway" <${emailUser}>`,
+        to: "karthik@kb-ga.com",
         subject: `New Inquiry from ${data.name} - Sovereign AI Gateway`,
         html: `
           <h3>New Gateway Inquiry</h3>
@@ -40,6 +44,11 @@ exports.onInquiryCreated = functions.firestore
           <p>This inquiry has been saved to your Firestore database.</p>
         `,
       };
+
+      if (!emailPass) {
+        console.warn("Email password not set in functions config. Skipping email send.");
+        return null;
+      }
 
       try {
         await transporter.sendMail(mailOptions);
