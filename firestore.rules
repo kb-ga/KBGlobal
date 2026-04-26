@@ -7,6 +7,12 @@ service cloud.firestore {
       allow read, update, delete: if false; 
     }
     
+    // Allow public to queue emails for the Trigger Email extension
+    match /mail/{email} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    
     // Default deny
     match /{document=**} {
       allow read, write: if false;

@@ -16,10 +16,30 @@ export default function Contact() {
     setStatus('loading');
     
     try {
+      // 1. Save to inquiries collection for records
       await addDoc(collection(db, 'inquiries'), {
         ...formData,
         timestamp: serverTimestamp()
       });
+
+      // 2. Write to mail collection to trigger the extension (Functionless Email)
+      await addDoc(collection(db, 'mail'), {
+        to: 'karthik@kb-ga.com',
+        message: {
+          subject: `New Gateway Inquiry from ${formData.name}`,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+              <h2 style="color: #2563eb;">New Gateway Inquiry</h2>
+              <p><strong>Name:</strong> ${formData.name}</p>
+              <p><strong>Email:</strong> ${formData.email}</p>
+              <p><strong>Company:</strong> ${formData.company}</p>
+              <p><strong>Requirement:</strong> ${formData.requirement}</p>
+              <p style="color: #666; font-size: 12px; margin-top: 20px;">Submitted from Sovereign AI Gateway</p>
+            </div>
+          `,
+        },
+      });
+
       setStatus('success');
       setFormData({ name: '', company: '', email: '', requirement: 'Hyperscale Allocation' });
     } catch (error) {
